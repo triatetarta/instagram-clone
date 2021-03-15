@@ -38,11 +38,7 @@ const Post = ({ location, caption, imageUrl, username, avatarUrl }) => {
         title={username}
         subheader={location}
       />
-      <CardMedia
-        className={classes.media}
-        image={imageUrl}
-        title='the national'
-      />
+      <CardMedia className={classes.media} image={imageUrl} title={username} />
 
       <CardActions disableSpacing>
         <IconButton>
@@ -61,7 +57,7 @@ const Post = ({ location, caption, imageUrl, username, avatarUrl }) => {
 
       <CardContent>
         <Typography variant='subtitle2' display='inline'>
-          username:
+          {username}:
         </Typography>
         <Typography variant='caption'> {caption}</Typography>
       </CardContent>
