@@ -15,9 +15,6 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import { CardContent } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
-  root: {
-    maxWidth: 345,
-  },
   media: {
     height: 0,
     paddingTop: '100%',
@@ -27,23 +24,23 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Post = () => {
+const Post = ({ location, caption, imageUrl, username, avatarUrl }) => {
   const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardHeader
-        avatar={<Avatar alt='ThreeQuarters' />}
+        avatar={<Avatar alt={username} src={avatarUrl} />}
         action={
           <IconButton>
             <MoreHorizIcon />
           </IconButton>
         }
-        title='Three Quarters'
-        subheader='London, United Kingdom'
+        title={username}
+        subheader={location}
       />
       <CardMedia
         className={classes.media}
-        image='https://www.rollingstone.com/wp-content/uploads/2019/10/TheNational.jpg'
+        image={imageUrl}
         title='the national'
       />
 
@@ -66,7 +63,7 @@ const Post = () => {
         <Typography variant='subtitle2' display='inline'>
           username:
         </Typography>
-        <Typography variant='caption'> caption</Typography>
+        <Typography variant='caption'> {caption}</Typography>
       </CardContent>
     </Card>
   );
