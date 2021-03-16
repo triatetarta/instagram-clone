@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Divider, Grid } from '@material-ui/core/';
+import { Divider, Grid } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import Post from './components/Post';
 import { db, auth } from './firebase';
@@ -78,7 +78,7 @@ const App = () => {
           <Grid container spacing={3} justify='center'>
             {posts.map(({ id, post }) => (
               <Grid key={id} item xs={12}>
-                <Post {...post} />
+                <Post {...post} postId={id} user={user} />
               </Grid>
             ))}
           </Grid>

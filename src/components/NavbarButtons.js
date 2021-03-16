@@ -95,7 +95,11 @@ const NavbarButtons = ({ setOpen, setOpenSignIn, user, username }) => {
         </Tooltip>
       </label>
       <Tooltip title='Upload'>
-        <IconButton onClick={handleUpload} component='span'>
+        <IconButton
+          onClick={handleUpload}
+          component='span'
+          disabled={!image ? true : false}
+        >
           <SendIcon />
         </IconButton>
       </Tooltip>
