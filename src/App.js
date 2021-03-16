@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CssBaseline, Divider, Grid } from '@material-ui/core/';
+import { Button, Divider, Grid } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
-import Post from './Post';
+import Post from './components/Post';
 import { db, auth } from './firebase';
-import ModalComp from './ModalComp';
-import ModalLogin from './ModalLogin';
-import ImageUpload from './ImageUpload';
+import ModalComp from './components/ModalComp';
+import ModalLogin from './components/ModalLogin';
+import ImageUpload from './components/ImageUpload';
+import Navbar from './components/Navbar';
 
 const useStyles = makeStyles(() => ({
-  app: {
-    backgroundColor: '#fafafa',
-    height: '100vh',
-  },
-  app__header: {
-    objectFit: 'contain',
-    backgroundColor: '#fff',
-    padding: '20px',
-  },
   mb: {
     marginBottom: '4rem',
   },
@@ -60,15 +52,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className={classes.app}>
-      <CssBaseline />
-      <div className={classes.app__header}>
-        <img
-          className={classes.app_headerImage}
-          src={process.env.PUBLIC_URL + '/assets/instagram.png'}
-          alt='instagram logo'
-        />
-      </div>
+    <div>
+      <Navbar />
       <Divider light className={classes.mb} />
 
       {user?.displayName ? (

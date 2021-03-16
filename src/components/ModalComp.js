@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, FormControl, Input } from '@material-ui/core';
-import { auth } from './firebase';
+import { auth } from '../firebase';
 
 function getModalStyle() {
   const top = 50;
@@ -35,25 +35,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ModalLogin = ({ openSignIn, setOpenSignIn }) => {
+const ModalComp = ({
+  open,
+  setOpen,
+  setUsername,
+  username,
+  setEmail,
+  email,
+  password,
+  setPassword,
+}) => {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const signIn = (e) => {
+  const signUp = (e) => {
     e.preventDefault();
+
     auth
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return authUser.user.updateProfile({
+          displayName: username,
+        });
+      })
       .catch((error) => alert(error.message));
 
+    setUsername('');
     setEmail('');
     setPassword('');
-    setOpenSignIn(false);
+    setOpen(false);
   };
 
   return (
-    <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
+    <Modal open={open} onClose={() => setOpen(false)}>
       <div style={modalStyle} className={classes.paper}>
         <center>
           <img
@@ -61,6 +75,15 @@ const ModalLogin = ({ openSignIn, setOpenSignIn }) => {
             alt='instagram logo'
             className={classes.app__signupImg}
           />
+          <FormControl className={classes.app__signup}>
+            <Input
+              className={classes.app__signupInput}
+              placeholder='username'
+              type='text'
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </FormControl>
           <FormControl className={classes.app__signup}>
             <Input
               className={classes.app__signupInput}
@@ -78,7 +101,7 @@ const ModalLogin = ({ openSignIn, setOpenSignIn }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button onClick={signIn}>Sign In</Button>
+            <Button onClick={signUp}>Sign Up</Button>
           </FormControl>
         </center>
       </div>
@@ -86,4 +109,4 @@ const ModalLogin = ({ openSignIn, setOpenSignIn }) => {
   );
 };
 
-export default ModalLogin;
+export default ModalComp;

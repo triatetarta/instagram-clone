@@ -1,35 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import firebase from 'firebase';
-import { storage, db } from './firebase';
-import { Button } from '@material-ui/core';
-
-function CircularProgressWithLabel(props) {
-  return (
-    <Box position='relative' display='inline-flex'>
-      <CircularProgress variant='determinate' {...props} />
-      <Box
-        top={0}
-        left={0}
-        bottom={0}
-        right={0}
-        position='absolute'
-        display='flex'
-        alignItems='center'
-        justifyContent='center'
-      >
-        <Typography
-          variant='caption'
-          component='div'
-          color='textSecondary'
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
+import { storage, db } from '../firebase';
+import UploadButtons from './UploadButtons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,9 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     display: 'none',
-  },
-  bar: {
-    width: '20%',
   },
 }));
 
@@ -96,16 +66,12 @@ const ImageUpload = ({ username }) => {
 
   return (
     <div>
-      <CircularProgressWithLabel value={progress} />
       <input
         type='text'
         placeholder='Enter a Caption'
         onChange={(e) => setCaption(e.target.value)}
       />
-      <input type='file' onChange={handleChange} />
-      <Button onClick={handleUpload} variant='contained' color='primary'>
-        +
-      </Button>
+      <UploadButtons handleUpload={handleUpload} handleChange={handleChange} />
     </div>
   );
 };
