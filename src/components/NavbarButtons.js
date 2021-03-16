@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { makeStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
+import Tooltip from '@material-ui/core/Tooltip';
+import AccountMenu from './AccountMenu';
 import firebase from 'firebase';
 import { storage, db } from '../firebase';
-import UploadButtons from './UploadButtons';
+import CustomizedSnackbar from './Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,16 +20,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImageUpload = ({ username }) => {
+const NavbarButtons = ({ setOpen, setOpenSignIn, user, username }) => {
   const classes = useStyles();
-  const [caption, setCaption] = useState('');
+
   const [image, setImage] = useState(null);
+  const [caption, setCaption] = useState('');
   const [progress, setProgress] = useState(0);
   const [url, setUrl] = useState('');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
+      setIsLoaded(true);
     }
   };
 
@@ -59,21 +67,47 @@ const ImageUpload = ({ username }) => {
             setProgress(0);
             setImage(null);
             setCaption('');
+            setIsLoaded(false);
           });
       }
     );
   };
 
-  return (
-    <div>
+  return user ? (
+    <div className={classes.root}>
+      <CustomizedSnackbar isLoaded={isLoaded} setIsLoaded={setIsLoaded} />
       <input
-        type='text'
-        placeholder='Enter a Caption'
-        onChange={(e) => setCaption(e.target.value)}
+        accept='image/*'
+        className={classes.input}
+        id='icon-button-file'
+        type='file'
+        onChange={handleChange}
       />
-      <UploadButtons handleUpload={handleUpload} handleChange={handleChange} />
+      <label htmlFor='icon-button-file'>
+        <Tooltip title='New Post'>
+          <IconButton
+            aria-label='upload picture'
+            component='span'
+            disabled={image ? true : false}
+          >
+            <PhotoCamera />
+          </IconButton>
+        </Tooltip>
+      </label>
+      <Tooltip title='Upload'>
+        <IconButton onClick={handleUpload} component='span'>
+          <SendIcon />
+        </IconButton>
+      </Tooltip>
+      <AccountMenu
+        setOpen={setOpen}
+        setOpenSignIn={setOpenSignIn}
+        user={user}
+      />
     </div>
+  ) : (
+    <AccountMenu setOpen={setOpen} setOpenSignIn={setOpenSignIn} user={user} />
   );
 };
 
-export default ImageUpload;
+export default NavbarButtons;

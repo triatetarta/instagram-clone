@@ -5,7 +5,6 @@ import Post from './components/Post';
 import { db, auth } from './firebase';
 import ModalComp from './components/ModalComp';
 import ModalLogin from './components/ModalLogin';
-import ImageUpload from './components/ImageUpload';
 import Navbar from './components/Navbar';
 
 const useStyles = makeStyles(() => ({
@@ -53,14 +52,13 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar
+        setOpen={setOpen}
+        setOpenSignIn={setOpenSignIn}
+        user={user}
+        username={user?.displayName}
+      />
       <Divider light className={classes.mb} />
-
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
-      ) : (
-        <h3>Sorry you need to login to upload</h3>
-      )}
 
       <ModalComp
         setEmail={setEmail}
@@ -73,15 +71,6 @@ const App = () => {
         setPassword={setPassword}
       />
       <ModalLogin setOpenSignIn={setOpenSignIn} openSignIn={openSignIn} />
-
-      {user ? (
-        <Button onClick={() => auth.signOut()}>Logout</Button>
-      ) : (
-        <>
-          <Button onClick={() => setOpen(true)}>Signup</Button>
-          <Button onClick={() => setOpenSignIn(true)}>Login</Button>
-        </>
-      )}
 
       <Grid container>
         <Grid item xs={1} sm={2} lg={4} />

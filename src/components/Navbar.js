@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Container, CssBaseline } from '@material-ui/core';
-import UploadButtons from './UploadButtons';
+import NavbarButtons from './NavbarButtons';
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = ({ setOpen, setOpenSignIn, user, username }) => {
   const classes = useStyles();
   return (
     <div className={classes.app}>
@@ -35,7 +35,12 @@ const Navbar = () => {
               src={process.env.PUBLIC_URL + '/assets/instagram.png'}
               alt='instagram logo'
             />
-            <UploadButtons />
+            <NavbarButtons
+              username={username}
+              setOpen={setOpen}
+              setOpenSignIn={setOpenSignIn}
+              user={user}
+            />
           </Toolbar>
         </AppBar>
       </Container>
